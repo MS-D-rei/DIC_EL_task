@@ -6,7 +6,6 @@ class TasksController < ApplicationController
   end
 
   def show
-    @task = Task.find(params[:id])
   end
 
   def new
@@ -16,6 +15,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     if @task.save
+      flash[:success] = 'New task created'
       redirect_to root_url
     else
       render :new
@@ -23,12 +23,11 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
   end
 
   def update
-    @task = Task.find(params[:id])
     if @task.update(task_params)
+      flash[:success] = 'Task updated'
       redirect_to root_url
     else
       render :edit
@@ -37,6 +36,7 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
+    flash[:success] = 'Task deleted'
     redirect_to root_url
   end
 
