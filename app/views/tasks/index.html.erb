@@ -1,0 +1,14 @@
+<%= link_to 'new task', new_task_path %>
+<ol>
+  <% @tasks.each do |task| %>
+  <li>
+    <%= task.content %><br>
+    priority: <%= task.priority %>
+    deadline: <%= task.deadline %>
+    status: <%= task.status %>
+  </li>
+  <%= link_to 'details', task_path(task) %>
+  <%= link_to 'edit', edit_task_path(task) %>
+  <%= link_to 'destroy', task_path(task), method: :delete %>
+  <% end %>
+</ol>
