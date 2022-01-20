@@ -2,7 +2,8 @@
 <ol>
   <% @tasks.each do |task| %>
   <li>
-    <%= task.content %><br>
+    title: <%= task.title %><br>
+    content: <%= task.content %><br>
     priority: <%= task.priority %>
     deadline: <%= task.deadline %>
     status: <%= task.status %>
