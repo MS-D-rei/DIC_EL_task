@@ -10,6 +10,7 @@
 2. Task
   - id :integer
   - user_id :integer
+  - title :varchar
   - content :text
   - priority :varchar
   - deadline :datetime
