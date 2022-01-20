@@ -2,14 +2,14 @@
 <ol>
   <% @tasks.each do |task| %>
   <li>
-    title: <%= task.title %><br>
-    content: <%= task.content %><br>
-    priority: <%= task.priority %>
-    deadline: <%= task.deadline %>
-    status: <%= task.status %>
+    <span id='task_title'><%= t('view.title') %>: <%= task.title %></span><br>
+    <%= t('view.content') %>: <%= task.content %><br>
+    <%= t('view.priority') %>: <%= task.priority %>
+    <%= t('view.deadline') %>: <%= task.deadline.strftime("%Y-%m-%d") %>
+    <%= t('view.status') %>: <%= task.status %>
   </li>
-  <%= link_to 'details', task_path(task) %>
-  <%= link_to 'edit', edit_task_path(task) %>
-  <%= link_to 'destroy', task_path(task), method: :delete %>
+  <%= link_to t('view.details'), task_path(task) %>
+  <%= link_to t('view.edit'), edit_task_path(task) %>
+  <%= link_to t('view.destroy'), task_path(task), method: :delete %>
   <% end %>
 </ol>

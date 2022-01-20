@@ -1,18 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe "Tasks", type: :system do
+  let(:tasks) { Task.all }
   let!(:first_task) { FactoryBot.create(:task) }
-  let!(:second_task) { FactoryBot.create(:task, content: 'test task 2') }
+  let!(:second_task) { FactoryBot.create(:task, title: 'test task 2') }
 
   describe '#new' do
     context 'make a new task' do
       it 'create a new task and redirect to root' do
         visit new_task_path
-        fill_in 'Title', with: 'new task 1'
-        fill_in 'Content', with: 'create new task'
-        fill_in 'Priority', with: '1'
-        fill_in 'Deadline', with: Time.zone.now
-        fill_in 'Status', with: 'doing'
+        fill_in 'task[title]', with: 'new task 1'
+        fill_in 'task[content]', with: 'create new task'
+        fill_in 'task[priority]', with: '1'
+        fill_in 'task[deadline]', with: Time.zone.now
+        fill_in 'task[status]', with: 'doing'
         click_on 'create task'
         visit tasks_path
         expect(page).to have_content 'create new task'
@@ -22,10 +23,16 @@ RSpec.describe "Tasks", type: :system do
 
   describe '#index' do
     context 'get index path' do
-      it 'show all created tasks' do
+      before do
         visit tasks_path
+      end
+      it 'show all created tasks' do
         expect(page).to have_content first_task.content
         expect(page).to have_content second_task.content
+      end
+      it 'show all tasks with descending order' do
+        newest_task = FactoryBot.create(:task, title: 'newest task', content: 'newest task 1' )
+        expect(newest_task.title).to eq tasks.first.title
       end
     end
   end

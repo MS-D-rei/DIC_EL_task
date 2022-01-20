@@ -1,11 +1,10 @@
 class TasksController < ApplicationController
-  before_action :selected_task, only: %i[show edit update destroy]
-
   def index
     @tasks = Task.all
   end
 
   def show
+    @task = Task.find(params[:id])
   end
 
   def new
@@ -23,9 +22,11 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @task = Task.find(params[:id])
   end
 
   def update
+    @task = Task.find(params[:id])
     if @task.update(task_params)
       flash[:success] = 'Task updated'
       redirect_to root_url
@@ -44,9 +45,5 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :content, :priority, :deadline, :status)
-  end
-
-  def selected_task
-    @task = Task.find(params[:id])
   end
 end
