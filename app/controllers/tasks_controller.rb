@@ -5,15 +5,7 @@ class TasksController < ApplicationController
     if params[:task_search]
       keyword = params[:task_search][:keyword]
       status = params[:task_search][:status_num]
-      if keyword.empty? && status.empty?
-        @tasks = Task.all.order("#{sort_column} #{sort_direction}")
-      elsif keyword.empty?
-        @tasks = Task.where('task_status = ?', status).order("#{sort_column} #{sort_direction}")
-      elsif status.empty?
-        @tasks = Task.where('title LIKE(?)', "%#{keyword}%").order("#{sort_column} #{sort_direction}")
-      else
-        @tasks = Task.where('title LIKE(?) and task_status = ?', "%#{keyword}%", status ).order("#{sort_column} #{sort_direction}")
-      end
+      @tasks = Task.show_search_result(keyword, status).order("#{sort_column} #{sort_direction}")
     else
       @tasks = Task.all.order("#{sort_column} #{sort_direction}")
     end
