@@ -11,10 +11,10 @@
 <%= f.text_field :priority %>
 
 <%= f.label :deadline %>
-<%= f.time_field :deadline %>
+<%= f.datetime_select :deadline %>
 
-<%= f.label :status %>
-<%= f.text_field :status %>
+<%= f.label :task_status %>
+<%= f.select :task_status, Task.task_statuses.keys.map { |key| [key, key] } %>
 
 <%= f.submit yield(:button_name), class: 'btn btn-primary' %>
 

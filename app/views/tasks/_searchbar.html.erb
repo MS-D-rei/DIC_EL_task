@@ -1,0 +1,10 @@
+<%= form_with(url: tasks_path, scope: :task_search, local: true, method: :get, class: 'search-form') do |f| %>
+
+<span class='search-field'>
+<%= f.text_field :keyword %>
+<%= f.select :status_num, Task.task_statuses.map { |key, val| [key, val] }, include_blank: true %>
+
+<%= image_submit_tag('icon-search-50.png', class: 'search-icon') %>
+</span>
+
+<% end %>

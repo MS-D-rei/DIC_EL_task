@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   validates :title, presence: true, length: { maximum: 40 }
   validates :content, presence: true, length: { maximum: 100 }
   validates :priority, presence: true
-  validates :status, presence: true
+  validates :task_status, presence: true
 
-  default_scope -> { order(created_at: :desc) }
+  enum task_status: { not_started: 0, doing: 1, completed: 2 }
 end

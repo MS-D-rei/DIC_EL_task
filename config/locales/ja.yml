@@ -210,7 +210,7 @@ ja:
     content: 内容
     priority: 優先度
     deadline: 期日
-    status: 状況
+    task_status: 状況
     details: 詳細
     edit: 編集
     destroy: 削除
