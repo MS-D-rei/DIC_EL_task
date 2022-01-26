@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :task do
-    title { 'test task 1' }
-    content { 'test task 1111' }
-    priority { '1' }
+    title { 'First task 1' }
+    content { 'FactoryBot task 1' }
+    priority { 'high' }
     deadline { Time.zone.now }
-    status { 'doing' }
+    task_status { 'not_started' }
   end
 end
