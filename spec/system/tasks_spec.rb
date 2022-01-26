@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Tasks", type: :system do
   let(:tasks) { Task.all }
   let!(:first_task) { FactoryBot.create(:task) }
-  let!(:second_task) { FactoryBot.create(:task, title: 'Second task 2', task_status: 'doing') }
+  let!(:second_task) { FactoryBot.create(:task, title: 'Second task 2', deadline: Time.zone.now + 60 * 60 * 24, task_status: 'doing') }
 
   describe '#new' do
     context 'make a new task' do
@@ -76,6 +76,17 @@ RSpec.describe "Tasks", type: :system do
         expect(all('#task_title')).to_not include not_keyword
         expect(first('#task_status')).to have_content 'not_started'
         expect(all('#task_status')).to_not have_content 'doing'
+      end
+    end
+
+    context 'sort tasks with deadline' do
+      it 'show tasks ascending order of deadline' do
+        click_link '期日'
+        sleep(1)
+        expect(first('#task_deadline')).to have_content first_task.deadline.strftime("%F")
+        click_link '期日'
+        sleep(1)
+        expect(first('#task_deadline')).to have_content second_task.deadline.strftime("%F")
       end
     end
   end
