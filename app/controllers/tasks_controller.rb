@@ -5,9 +5,9 @@ class TasksController < ApplicationController
     if params[:task_search]
       keyword = params[:task_search][:keyword]
       status = params[:task_search][:status_num]
-      @tasks = Task.show_search_result(keyword, status).order("#{sort_column} #{sort_direction}")
+      @tasks = Task.show_search_result(keyword, status).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
     else
-      @tasks = Task.all.order("#{sort_column} #{sort_direction}")
+      @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
     end
   end
 
