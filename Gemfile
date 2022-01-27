@@ -6,6 +6,7 @@ ruby '3.0.1'
 gem 'rails', '~> 6.0.3'
 gem 'faker'
 gem 'kaminari'
+gem 'rubocop-rails', require: false
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
