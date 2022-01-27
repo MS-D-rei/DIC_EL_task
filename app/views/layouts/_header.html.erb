@@ -4,7 +4,10 @@
     <nav>
       <ul class='nav'>
         <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'Users', '#' %>
+        <li><%= link_to 'Users', '#' %></li>
+        <% if logged_in? %>
+        <li><%= link_to 'Edit profile', edit_user_path(current_user) %>
+        <% end %>
       </ul>
     </nav>
   </div>
