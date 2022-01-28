@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   helper_method :sort_direction, :sort_column
-
+  
   before_action :logged_in_user, only: %i[new create edit update destroy]
   before_action :correct_user, only: %i[edit update destroy]
 

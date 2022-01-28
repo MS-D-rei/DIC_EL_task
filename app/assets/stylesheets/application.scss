@@ -59,9 +59,10 @@ table {
   tbody {
     tr {
       margin-top: 5px;
+      border-bottom: 1px solid gray;
     }
     td {
-      border-bottom: 1px solid gray;
+      padding-right: 15px;
     }
   }
 }

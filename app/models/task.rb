@@ -1,5 +1,5 @@
 class Task < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, counter_cache: true
 
   validates :title, presence: true, length: { maximum: 40 }
   validates :content, presence: true, length: { maximum: 100 }

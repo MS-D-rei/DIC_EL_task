@@ -2,7 +2,8 @@ User.create!(
   name: 'Test Name',
   email: 'test@mail.com',
   password: 'foobar01',
-  password_confirmation: 'foobar01'
+  password_confirmation: 'foobar01',
+  admin: true
 )
 
 50.times do |n|
