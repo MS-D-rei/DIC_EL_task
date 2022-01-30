@@ -17,7 +17,7 @@ class TasksController < ApplicationController
   end
 
   def show
-    @task = current_user.tasks.find_by(id: params[:id])
+    @task = Task.find(params[:id])
   end
 
   def new
@@ -55,8 +55,11 @@ class TasksController < ApplicationController
   private
 
   def correct_user
-    @task = current_user.tasks.find_by(id: params[:id])
-    redirect_to root_url if @post.nil?
+    @task = Task.find(params[:id])
+
+    return if current_user.admin?
+
+    redirect_to root_url unless current_user.tasks.include?(@task)
   end
 
   def task_params

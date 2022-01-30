@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
     flash[:danger] = 'Please log in'
     redirect_to login_url
   end
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 end

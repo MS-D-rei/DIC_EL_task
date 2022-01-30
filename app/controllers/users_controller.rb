@@ -1,8 +1,25 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: %i[edit update]
+  helper_method :sort_direction, :sort_column
+  
+  before_action :logged_in_user, only: %i[show edit update]
   before_action :correct_user, only: %i[edit update]
 
   def index
+  end
+
+  def show
+    @user = User.find(params[:id])
+    if params[:task_search]
+      keyword = params[:task_search][:keyword]
+      status = params[:task_search][:status_num]
+      @tasks = @user.tasks.show_search_result(keyword, status).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
+    else
+      @tasks = @user.tasks.all.order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
+    end
+
+    return if current_user.admin?
+
+    render 'tasks/index' unless current_user?(@user)
   end
 
   def new
@@ -34,12 +51,19 @@ class UsersController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
-
   def correct_user
     @user = User.find(params[:id])
+
+    return if current_user.admin?
+
     redirect_to root_url unless current_user?(@user)
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
+  end
+
+  def sort_column
+    Task.column_names.include?(params[:sort]) ? params[:sort] : 'created_at'
   end
 end

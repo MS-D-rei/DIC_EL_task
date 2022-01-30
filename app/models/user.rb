@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   before_save :downcase_email
+  before_destroy :check_admin_number
 
   has_many :tasks, dependent: :destroy
 
@@ -15,5 +16,12 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = email.downcase
+  end
+
+  def check_admin_number
+    @user = User.find(id)
+    return unless @user.admin?
+
+    throw :abort if User.where(admin: true).count == 1
   end
 end

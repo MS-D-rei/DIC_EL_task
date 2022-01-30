@@ -9,6 +9,8 @@ class Task < ApplicationRecord
   enum priority: { high: 0, middle: 1, low: 2 }
   enum task_status: { not_started: 0, doing: 1, completed: 2 }
 
+  before_destroy :check_admin_number
+
   scope :show_search_result, lambda { |keyword, status|
     if keyword.empty? && status.empty?
       Task.default_scoped.all
