@@ -40,7 +40,8 @@ class Admin::UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    flash[:success] = 'The user has been deleted'
+    flash[:success] = 'The user account has been deleted' unless @user.admin?
+    flash[:info] = 'Please warn the number of admin users.' if @user.admin?
     redirect_to admin_users_path
   end
 

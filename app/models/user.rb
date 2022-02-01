@@ -1,8 +1,8 @@
 class User < ApplicationRecord
-  before_save :downcase_email
-  before_destroy :check_admin_number
-
   has_many :tasks, dependent: :destroy
+
+  before_save :downcase_email
+  before_destroy :check_admin_number, prepend: true
 
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -20,8 +20,7 @@ class User < ApplicationRecord
 
   def check_admin_number
     @user = User.find(id)
-    return unless @user.admin?
 
-    throw :abort if User.where(admin: true).count == 1
+    throw :abort if User.where(admin: true).count == 1 && @user.admin?
   end
 end

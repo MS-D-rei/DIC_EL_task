@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   helper_method :sort_direction, :sort_column
   
   before_action :logged_in_user, only: %i[show edit update]
-  before_action :correct_user, only: %i[edit update]
+  before_action :correct_user, only: %i[show edit update]
 
   def index
   end
@@ -23,6 +23,8 @@ class UsersController < ApplicationController
   end
 
   def new
+    return redirect_to root_url if logged_in? && !current_user.admin?
+
     @user = User.new
   end
 
