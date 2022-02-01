@@ -10,4 +10,9 @@ module LoginHelper
     fill_in 'session[password]', with: second_user.password
     click_on 'Log in'
   end
+
+  def log_out
+    visit tasks_path
+    click_on 'log out'
+  end
 end

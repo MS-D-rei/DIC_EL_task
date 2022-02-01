@@ -22,7 +22,7 @@ RSpec.describe "Sessions", type: :system do
       it 'show the log in page' do
         visit login_path
         first_user_log_in
-        sleep(1)
+        sleep(0.5)
         click_on 'log out'
         expect(page).to have_button 'Log in'
       end
