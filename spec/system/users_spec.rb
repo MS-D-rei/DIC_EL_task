@@ -41,7 +41,7 @@ RSpec.describe "Users", type: :system do
       sleep(0.5)
       click_on 'Admin page'
     end
-    
+
     context 'admin_user access admin page' do
       it 'show admin user index' do
         expect(page).to have_content 'Administration Page'
