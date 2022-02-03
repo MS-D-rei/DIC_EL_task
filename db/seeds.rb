@@ -1,3 +1,4 @@
+# user creation
 User.create!(
   name: 'Test Name',
   email: 'test@mail.com',
@@ -18,6 +19,14 @@ User.create!(
   )
 end
 
+# label creation
+10.times do |n|
+  name = "test_label#{n + 1}"
+  Label.create!(
+    name: name
+  )
+end
+
 first_user = User.first
 3.times do |n|
   title = "New task #{n + 1}"
@@ -25,13 +34,14 @@ first_user = User.first
   priority = n
   deadline = Time.zone.now + (n + 1)
   task_status = n
-  first_user.tasks.create!(
+  task = first_user.tasks.create!(
     title: title,
     content: content,
     priority: priority,
     deadline: deadline,
     task_status: task_status
   )
+  task.label_ids = [(n + 1), (n + 2), (n + 3)]
 end
 
 users = User.order(:created_at).take(5)
@@ -42,12 +52,13 @@ users = User.order(:created_at).take(5)
   deadline = Time.zone.now + 60 * 60 * 24 * (n + 1)
   task_status = rand(0..2)
   users.each do |user|
-    user.tasks.create!(
+    task = user.tasks.create!(
       title: title,
       content: content,
       priority: priority,
       deadline: deadline,
       task_status: task_status
     )
+    task.label_ids = rand(1..10)
   end
 end

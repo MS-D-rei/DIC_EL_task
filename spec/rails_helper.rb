@@ -64,4 +64,5 @@ RSpec.configure do |config|
 
   config.include SelectDateHelpers
   config.include LoginHelper
+  config.include AddLabelsHelper
 end

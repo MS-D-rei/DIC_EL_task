@@ -8,6 +8,8 @@ RSpec.describe "Tasks", type: :system do
   let!(:second_user) { FactoryBot.create(:user, name: 'Second User', email: 'test_2@mail.com') }
   let!(:first_user_task1) { FactoryBot.create(:task, user: first_user) }
   let!(:first_user_task2) { FactoryBot.create(:task, title: 'Second task', content: 'FactoryBot task 2', deadline: Time.zone.now + 60 * 60 * 24, task_status: 'doing', user: first_user) }
+  let!(:label_1) { FactoryBot.create(:label) }
+  let!(:label_2) { FactoryBot.create(:label, name: 'label2') }
 
   describe '#new' do
     before do
@@ -25,8 +27,10 @@ RSpec.describe "Tasks", type: :system do
         select_date('2022,1,25', from: '期日')
         select_time('18', '00', from: '期日')
         find('#task_task_status').find("option[value='not_started']").select_option
+        check 'label1'
         click_on 'create task'
         expect(page).to have_content 'New task content'
+        expect(page).to have_content 'label1'
       end
     end
   end
@@ -98,6 +102,18 @@ RSpec.describe "Tasks", type: :system do
         click_link '期日'
         sleep(0.5)
         expect(first('#task_deadline')).to have_content first_user_task2.deadline.strftime("%F")
+      end
+    end
+
+    context 'search by label' do
+      it 'show tasks that have the seleted label' do
+        add_labels(first_user_task1, 'label1')
+        add_labels(first_user_task2, 'label2')
+        select 'label2', from: 'label_id'
+        click_on 'search'
+        sleep(0.5)
+        expect(page).to have_content 'label2'
+        expect(all('#task_label')).not_to include 'label1'
       end
     end
   end
