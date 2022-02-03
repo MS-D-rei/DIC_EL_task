@@ -10,9 +10,11 @@ class TasksController < ApplicationController
     if params[:task_search]
       keyword = params[:task_search][:keyword]
       status = params[:task_search][:status_num]
-      @tasks = current_user.tasks.show_search_result(keyword, status).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
+      return @tasks = current_user.tasks.includes(:labels).where(labels: { id: params[:label_id] } ).show_search_result(keyword, status).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10) if params[:label_id].present?
+      @tasks = current_user.tasks.includes(:labels).show_search_result(keyword, status).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
     else
-      @tasks = current_user.tasks.all.order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
+      return @tasks = current_user.tasks.includes(:labels).where(labels: { id: params[:label_id] } ).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10) if params[:label_id].present?
+      @tasks = current_user.tasks.includes(:labels).order("#{sort_column} #{sort_direction}").page(params[:page]).per(10)
     end
   end
 
@@ -63,7 +65,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :priority, :deadline, :task_status)
+    params.require(:task).permit(:title, :content, :priority, :deadline, :task_status, label_ids: [])
   end
 
   def sort_direction
@@ -71,6 +73,6 @@ class TasksController < ApplicationController
   end
 
   def sort_column
-    Task.column_names.include?(params[:sort]) ? params[:sort] : 'created_at'
+    Task.column_names.include?(params[:sort]) ? params[:sort] : 'tasks.created_at'
   end
 end

@@ -7,7 +7,15 @@
 <%= link_to 'new task', new_task_path, class: 'btn btn-primary' %>
   </div>
 </div>
-<%= render 'tasks/searchbar' %>
+
+<div class='row'>
+  <div class='col-4'>
+    <%= render 'tasks/searchbar' %>
+  </div>
+  <div class='col-3'>
+    <%= render 'tasks/label_search' %>
+  </div>
+</div>
 
 <% if params[:task_search] %>
 Search_keyword with: <%= params[:task_search][:keyword] %>

@@ -51,3 +51,10 @@ users = User.order(:created_at).take(5)
     )
   end
 end
+
+10.times do |n|
+  name = "test_label#{n + 1}"
+  Label.create!(
+    name: name
+  )
+end
