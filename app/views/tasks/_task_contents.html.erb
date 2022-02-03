@@ -19,7 +19,7 @@
       <td><%= task.priority %></td>
       <td id='task_deadline'><%= task.deadline.strftime("%Y-%m-%d") %></td>
       <td id='task_status'><%= task.task_status %></td>
-      <td>
+      <td id='task_label'>
         <% task.labels.each do |label| %>
           <%= label.name %>
         <% end %>
